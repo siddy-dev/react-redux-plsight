@@ -1,25 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
+import * as authorActions from "../../redux/actions/authorActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import CourseList from "./CourseList";
 
 class CoursesPage extends React.Component {
+  componentDidMount() {
+    const { courses, authors, actions } = this.props;
 
-componentDidMount() {
-  return this.props.actions.loadCourses()
-  .catch(err=> {
-    console.log('loading error');
-  });
-}
+    if (authors.length === 0) {
+      return actions.loadAuthors().catch(err => {
+        console.log("loading author error");
+      });
+    }
+
+    if (courses.length === 0) {
+      return actions.loadCourses().catch(err => {
+        console.log("loading courses error");
+      });
+    }
+
+  }
 
   render() {
     return (
       <>
         <h2>Courses</h2>
-        {this.props.courses.map(course => (
-          <div key={course.title}>{course.title}</div>
-        ))}
+        <CourseList courses={this.props.courses} />
       </>
     );
   }
@@ -27,18 +36,33 @@ componentDidMount() {
 
 CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  authors: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    courses: state.courses
+    courses:
+      state.authors.length === 0
+        ? []
+        : state.courses.map(course => {
+            return {
+              ...course,
+              authorName: state.authors.find(
+                author => author.id === course.authorId
+              ).name
+            };
+          }),
+    authors: state.authors
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(courseActions, dispatch)
+    actions: {
+      loadCourses: bindActionCreators(courseActions.loadCourses, dispatch),
+      loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch)
+    }
   };
 }
 

@@ -1,8 +1,8 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/courses/";
+const baseUrl = 'https://testrered1.free.beeceptor.com';
 
 export function getCourses() {
-  return fetch(baseUrl)
+  return fetch(baseUrl + '/courses')
     .then(handleResponse)
     .catch(handleError);
 }

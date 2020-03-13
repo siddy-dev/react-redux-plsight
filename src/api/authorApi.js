@@ -1,8 +1,8 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/authors/";
+const baseUrl = 'https://testrered1.free.beeceptor.com';
 
 export function getAuthors() {
-  return fetch(baseUrl)
+  return fetch(baseUrl + '/authors')
     .then(handleResponse)
     .catch(handleError);
 }
