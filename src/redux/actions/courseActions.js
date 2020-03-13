@@ -11,8 +11,7 @@ export function loadCourseSuccess(courses) {
 
 export function loadCourses() {
   return function(dispatch) {
-    return courseApi
-      .loadCourses()
+    return courseApi.getCourses()
       .then(courses => dispatch(loadCourseSuccess(courses)))
       .catch(err => {
         throw err;

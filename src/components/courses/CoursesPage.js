@@ -5,6 +5,14 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 
 class CoursesPage extends React.Component {
+
+componentDidMount() {
+  return this.props.actions.loadCourses()
+  .catch(err=> {
+    console.log('loading error');
+  });
+}
+
   render() {
     return (
       <>
