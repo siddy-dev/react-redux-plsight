@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = 'https://testrered1.free.beeceptor.com';
+const baseUrl = 'https://testrered11.free.beeceptor.com';
 
 export function getCourses() {
   return fetch(baseUrl + '/courses')

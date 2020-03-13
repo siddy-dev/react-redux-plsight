@@ -11,17 +11,26 @@ class CoursesPage extends React.Component {
     const { courses, authors, actions } = this.props;
 
     if (authors.length === 0) {
-      return actions.loadAuthors().catch(err => {
-        console.log("loading author error");
-      });
+      return actions
+        .loadAuthors()
+        .then(() => {
+          if (courses.length === 0) {
+            return actions.loadCourses()
+            .catch(err => {
+              console.log("loading courses error");
+            });
+          }
+        })
+        .catch(err => {
+          console.log("loading author error");
+        });
     }
 
-    if (courses.length === 0) {
-      return actions.loadCourses().catch(err => {
-        console.log("loading courses error");
-      });
-    }
-
+    // if (courses.length === 0) {
+    //   return actions.loadCourses().catch(err => {
+    //     console.log("loading courses error");
+    //   });
+    // }
   }
 
   render() {
